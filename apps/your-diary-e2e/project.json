@@ -1,0 +1,28 @@
+{
+  "root": "apps/your-diary-e2e",
+  "sourceRoot": "apps/your-diary-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/your-diary-e2e/cypress.json",
+        "devServerTarget": "your-diary:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "your-diary:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/your-diary-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["your-diary"]
+}

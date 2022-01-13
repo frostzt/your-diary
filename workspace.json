@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "your-diary": "apps/your-diary",
+    "your-diary-e2e": "apps/your-diary-e2e"
+  }
+}
