@@ -6,6 +6,7 @@ interface SidebarProps {
   name: string;
   notes: Note[];
   createNewNote: () => void;
+  deleteNote: (id: string) => void;
   setIsActive: (id: string) => void;
 }
 
@@ -14,6 +15,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   createNewNote,
   notes,
   setIsActive,
+  deleteNote,
 }) => {
   return (
     <div className="fixed h-screen w-1/4 bg-slate-50 p-4">
@@ -42,7 +44,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex flex-col">
         {notes.length > 0 &&
           notes.map((note) => (
-            <NoteSnippet setIsActive={setIsActive} note={note} key={note._id} />
+            <NoteSnippet
+              deleteNote={deleteNote}
+              setIsActive={setIsActive}
+              note={note}
+              key={note._id}
+            />
           ))}
       </div>
     </div>

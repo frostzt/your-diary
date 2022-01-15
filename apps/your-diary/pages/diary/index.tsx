@@ -128,9 +128,39 @@ const DiaryPage: NextPage = () => {
     }
   };
 
+  /**
+   * Delete the specified note
+   */
+  const deleteNote = async (id: string) => {
+    try {
+      const response = await axios.delete(`/api/note/${id}`);
+
+      if (response.status === 204) {
+        if (active === id) {
+          setActive('');
+          setTitle('');
+          setBody('');
+          setIsCreating(false);
+        }
+
+        const allNotes = notes;
+        const index = allNotes.findIndex((note) => note._id === active);
+        allNotes.splice(index, 1);
+        updateNotes([...allNotes]);
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      error.response?.errors?.forEach((error: CustomError) => {
+        console.error(error.message);
+      });
+    }
+  };
+
   return (
     <div className="flex">
       <Sidebar
+        deleteNote={deleteNote}
         notes={notes}
         createNewNote={createNewNote}
         setIsActive={setActiveState}
