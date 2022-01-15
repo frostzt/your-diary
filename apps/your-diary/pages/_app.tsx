@@ -4,9 +4,9 @@ import Head from 'next/head';
 import React from 'react';
 import '../styles/index.css';
 
-function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <Head>
         <title>Just Your Diary!</title>
         <meta name="description" content="Just your Diary!" />
