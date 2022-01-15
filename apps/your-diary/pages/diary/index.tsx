@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Editor from '../../components/editor';
 import Sidebar from '../../components/sidebar';
+import CustomError from '../../interfaces/error.interface';
 import Note from '../../interfaces/note.interface';
 
 const DiaryPage: NextPage = () => {
@@ -36,6 +37,7 @@ const DiaryPage: NextPage = () => {
         try {
           const response = await axios.get('/api/note');
           updateNotes(response.data.data.notes);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           error.response?.errors?.forEach((error: { message: string }) => {
             console.error(error.message);
@@ -92,8 +94,35 @@ const DiaryPage: NextPage = () => {
       if (response.status === 201) {
         updateNotes([...notes, response.data.data.note]);
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      error.response?.errors?.forEach((error: { message: string }) => {
+      error.response?.errors?.forEach((error: CustomError) => {
+        console.error(error.message);
+      });
+    }
+  };
+
+  /**
+   * Update the given note on the database
+   */
+  const updateNote = async () => {
+    try {
+      const response = await axios.put('/api/note', {
+        noteId: active,
+        title,
+        body,
+      });
+
+      if (response.status === 200) {
+        const allNotes = notes;
+        const index = allNotes.findIndex((note) => note._id === active);
+        allNotes.splice(index, 1);
+        updateNotes([...allNotes, response.data.data.note]);
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      error.response?.errors?.forEach((error: CustomError) => {
         console.error(error.message);
       });
     }
@@ -112,6 +141,7 @@ const DiaryPage: NextPage = () => {
           title={title}
           setTitle={updateTitle}
           body={body}
+          updateNote={updateNote}
           setBody={updateBody}
         />
       )}

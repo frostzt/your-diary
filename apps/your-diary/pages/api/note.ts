@@ -38,6 +38,24 @@ export default async function handler(
       return res.status(201).json({ data: { note: newNote } });
     }
 
+    case 'PUT': {
+      const { noteId, title, body } = req.body;
+      const exists = await Note.findById(noteId);
+      if (!exists) {
+        return res
+          .status(404)
+          .json({ errors: [{ messgae: 'This note does not exist!' }] });
+      }
+
+      const updatedNote = await Note.findByIdAndUpdate(
+        noteId,
+        { title, body },
+        { new: true }
+      );
+
+      return res.status(200).json({ data: { note: updatedNote } });
+    }
+
     // If the request type is not supported
     default:
       return res.status(400).json({
