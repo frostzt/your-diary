@@ -4,18 +4,29 @@ import MarkdownComponents from './markdownComponents';
 
 interface EditorProps {
   body: string;
+  title: string;
   setBody: (value: string) => void;
+  setTitle: (value: string) => void;
 }
 
-const Editor: React.FC<EditorProps> = ({ body, setBody }) => {
+const Editor: React.FC<EditorProps> = ({ body, setBody, title, setTitle }) => {
   return (
     <div className="fixed w-3/4 h-screen right-0 flex flex-col p-1">
+      <input
+        value={title}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setTitle(e.target.value)
+        }
+        type="text"
+        className="h-12 mb-2 w-full outline-none px-3"
+      />
       <textarea
         className="outline-none p-3"
         value={body}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setBody(e.target.value)
         }
+        placeholder="Write your note here, you can use Markdown! Then view your result down below!"
         cols={30}
         rows={10}
       />
