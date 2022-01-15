@@ -9,6 +9,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     <SessionProvider session={session}>
       <Head>
         <title>Just Your Diary!</title>
+        <meta name="description" content="Just your Diary!" />
       </Head>
       <main className="h-full w-full">
         <Component {...pageProps} />
