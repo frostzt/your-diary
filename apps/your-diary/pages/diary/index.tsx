@@ -138,7 +138,7 @@ const DiaryPage: NextPage = () => {
     try {
       const response = await axios.delete(`/api/note/${id}`);
 
-      if (response.status === 204) {
+      if (response.status === 200) {
         if (active === id) {
           setActive('');
           setTitle('');
