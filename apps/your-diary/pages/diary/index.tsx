@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Editor from '../../components/editor';
 import Sidebar from '../../components/sidebar';
 import CustomError from '../../interfaces/error.interface';
@@ -93,6 +94,7 @@ const DiaryPage: NextPage = () => {
       });
       if (response.status === 201) {
         updateNotes([...notes, response.data.data.note]);
+        toast.success('Created new note!');
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -118,6 +120,7 @@ const DiaryPage: NextPage = () => {
         const index = allNotes.findIndex((note) => note._id === active);
         allNotes.splice(index, 1);
         updateNotes([...allNotes, response.data.data.note]);
+        toast.success('Updated successfully!');
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -147,6 +150,7 @@ const DiaryPage: NextPage = () => {
         const index = allNotes.findIndex((note) => note._id === active);
         allNotes.splice(index, 1);
         updateNotes([...allNotes]);
+        toast.success('Deleted successfully!');
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
